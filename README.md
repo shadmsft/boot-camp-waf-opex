@@ -35,8 +35,7 @@ https://portal.azure.com/?feature.customportal=false
     az monitor log-analytics workspace show -g rg-opex --workspace-name la-ws-opex --query customerId
 
     az monitor log-analytics workspace get-shared-keys -g rg-opex --workspace-name la-ws-opex
-1. Deploy a Linux VM to Azure in the Cloud Shell. You should be prompted to create a password.
-
+1. Deploy a Linux VM to Azure in the Cloud Shell. You should be prompted to create a password. After it is created assign a managed identity.
     ```cli
     az vm create \
     --resource-group rg-opex \
@@ -44,18 +43,12 @@ https://portal.azure.com/?feature.customportal=false
     --image UbuntuLTS \
     --admin-username azureuser \
     --generate-ssh-keys
+
+    az vm identity show -g rg-opex -n myLinuxVM
+
 1. Connect the VM to the Log Analytics Workspace. Make sure to replace "<myWorkspaceKey>" and "<myWorkspaceId>" with your specific values.
     ```cli
     az vm extension set \
-    --resource-group rg-opex \
-    --vm-name myLinuxVM \
-    --name OmsAgentForLinux \
-    --publisher Microsoft.EnterpriseCloud.Monitoring \
-    --protected-settings '{"workspaceKey":"GGEd9wIKc2va1Nm8D6KF7Gp6SZ0Zio4D9YIccI7wKDCbEjLcqvnYmkIgn/sVx9G9FXI4Tg+L2+pDuh0CK874Lg=="}' \
-    --settings '{"workspaceId":"9364f3eb-367e-4f0f-aed9-473f224d9f6d"}'
-
-    ```cli
-        az vm extension set \
     --resource-group rg-opex \
     --vm-name myLinuxVM \
     --name OmsAgentForLinux \
