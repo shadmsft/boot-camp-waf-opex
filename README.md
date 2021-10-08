@@ -33,6 +33,10 @@ https://portal.azure.com/?feature.customportal=false
     ```cli
     az monitor log-analytics workspace create -g rg-opex -n la-ws-opex
     ```
+
+    ```cli
+az extension add -n application-insights
+    ```
 1. Navigate to the portal to verify the Log Analytics Workspace has been deployed.
 
     ![image](./media/3.png)
@@ -94,6 +98,15 @@ https://portal.azure.com/?feature.customportal=false
     ```
     ```cli
     az webapp create -g rg-opex -p asp-opex-1 -n $webAppName --runtime "dotnetcore|3.1" --deployment-local-git
+    
+    TODO: 
+    * Wire up Get GitHub (clone|deployment) - Maybe
+    * Add App Insights
+    * Add a problem - maybe
+    * Add as many diagnostics to each service
+    * Gen load with command shell do while(true)
+    * Add Alerts
+    * Add Queries
     ```
 2. Create Diagnostic Settings for the Web app
     ```cli
@@ -122,3 +135,5 @@ https://docs.microsoft.com/en-us/cli/azure/webapp?view=azure-cli-latest#az_webap
 https://docs.microsoft.com/en-us/cli/azure/appservice/plan?view=azure-cli-latest#az_appservice_plan_create
 
 https://docs.microsoft.com/en-us/azure/app-service/quickstart-dotnetcore?tabs=netcore31&pivots=development-environment-cli#publish-your-web-app
+
+https://docs.microsoft.com/en-us/azure/azure-monitor/app/create-workspace-resource
