@@ -6,7 +6,7 @@
 * Deploy Azure Monitor Log Analytics Workspace
 * Deploy Azure App Service & Web App
 * Configure Diagnostics
-* Configure Azure Alerts
+* Configure Azure Alert based on VM Metric
 * Configure Autoscaling
 
 https://portal.azure.com/?feature.customportal=false
@@ -50,7 +50,7 @@ az extension add -n application-insights
 ##  Deploy Azure App Service & Web App
 1. Deploy an App Service Plan
     ```cli
-    az appservice plan create -g rg-opex -n asp-opex-1 --location southcentralus
+    az appservice plan create -g rg-opex -n asp-opex-1 --location southcentralus --sku FREE
     ```
     ```cli
     let randomNum=$RANDOM*$RANDOM
@@ -69,7 +69,6 @@ az extension add -n application-insights
 
     echo http://$webAppName.azurewebsites.net
     ```
-## Configure Diagnostics
 1. Create Diagnostic Settings for the Web app
     ```cli
      wsID=$(az monitor log-analytics workspace show --workspace-name la-ws-opex -g rg-opex --query id --output tsv)
@@ -83,6 +82,7 @@ az extension add -n application-insights
     while true
     do
         curl http://$webAppName.azurewebsites.net
+        sleep 3
     done
     ```
     Type Ctrl+C when finished with load test

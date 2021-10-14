@@ -4,9 +4,9 @@
 
 ## Objectives
 * Deploy Azure Monitor Log Analytics Workspace
-* Deploy Azure App Service & Web App
+* Deploy Azure Linux
 * Configure Diagnostics
-* Configure Azure Alerts
+* Configure Azure Alert based on VM Metric
 * Configure Autoscaling
 
 https://portal.azure.com/?feature.customportal=false
@@ -47,7 +47,45 @@ az extension add -n application-insights
     ```cli
     az monitor log-analytics workspace get-shared-keys -g rg-opex --workspace-name la-ws-opex
     ```
-##  Deploy Azure App Service & Web App
+## Option 1: Deploy a VM
+1. Deploy a Linux VM to Azure in the Cloud Shell. You should be prompted to create a password. After it is created assign a managed identity.
+    ```cli
+    az vm create \
+    --resource-group rg-opex \
+    --name myLinuxVM \
+    --image UbuntuLTS \
+    --admin-username azureuser \
+    --generate-ssh-keys \
+    --assign-identity
+    ```
+
+    ```cli
+    az vm identity show -g rg-opex -n myLinuxVM
+    ```
+
+1. Connect the VM to the Log Analytics Workspace. Make sure to replace "myWorkspaceKey" and "myWorkspaceId" with your specific values.
+    ```cli
+    az vm extension set \
+    --resource-group rg-opex \
+    --vm-name myLinuxVM \
+    --name OmsAgentForLinux \
+    --publisher Microsoft.EnterpriseCloud.Monitoring \
+    --protected-settings '{"workspaceKey":"<myWorkspaceKey>"}' \
+    --settings '{"workspaceId":"<myWorkspaceId>"}'
+1. Create a storage account for the VM Diagnostics
+    ```cli
+    let randomNum=$RANDOM*$RANDOM
+    ```
+    ```cli
+    stgName=diagopex$randomNum
+    ```
+    ```cli
+    az storage account create -n $stgName -g rg-opex -l southcentralus --sku Standard_LRS
+    ```
+1. Collect platform metrics and Activity log by setting and creating the diagnostics.
+    ```cli
+    az monitor diagnostic-settings create --name VM-Diagnostics --resource-group rg-opex --resource "myLinuxVM" --resource-type 'Microsoft.Compute/virtualMachines' --metrics '[{"category": "AllMetrics","enabled": true}]' --workspace "la-ws-opex"
+## Option 2: Deploy a Web App
 1. Deploy an App Service Plan
     ```cli
     az appservice plan create -g rg-opex -n asp-opex-1 --location southcentralus
@@ -59,36 +97,9 @@ az extension add -n application-insights
     webAppName=waopex$randomNum
     ```
     ```cli
-    az webapp create -g rg-opex -p asp-opex-1 -n $webAppName
-    ```
-1. Create deployment to the Web App, using a sample application
-    ```cli
-    gitRepo=https://github.com/Azure-Samples/php-docs-hello-world
-
-    az webapp deployment source config --name $webAppName --resource-group rg-opex --repo-url $gitRepo --branch master --manual-integration
-
-    echo http://$webAppName.azurewebsites.net
-    ```
-## Configure Diagnostics
-1. Create Diagnostic Settings for the Web app
-    ```cli
-     wsID=$(az monitor log-analytics workspace show --workspace-name la-ws-opex -g rg-opex --query id --output tsv)
-     webAppId=$(az webapp show -g rg-opex -n $webAppName --query id --output tsv)
-    ```
-    ```cli
-    az monitor diagnostic-settings create --resource $webAppId --name diagWebApp --workspace $wsID --logs '[{"category":"AppServiceHTTPLogs","enabled":true,"retentionPolicy":{"enabled":false,"days":0}},{"category":"AppServiceConsoleLogs","enabled": true,"retentionPolicy":{"enabled":false,"days":0}}]' --metrics '[{"category":"AllMetrics","enabled":true,"retentionPolicy":{"enabled":false,"days":0}}]'
-    ```
-2. Create some load from the Cloud Shell
-    ```cli
-    while true
-    do
-        curl http://$webAppName.azurewebsites.net
-    done
-    ```
-    Type Ctrl+C when finished with load test
-3. To Do:
-
-    TODO:
+    az webapp create -g rg-opex -p asp-opex-1 -n $webAppName --runtime "dotnetcore|3.1" --deployment-local-git
+    
+    TODO: 
     * Wire up Get GitHub (clone|deployment) - Maybe
     * Add App Insights
     * Add a problem - maybe
@@ -97,7 +108,16 @@ az extension add -n application-insights
     * Add Alerts
     * Add Queries
     ```
-
+2. Create Diagnostic Settings for the Web app
+    ```cli
+    $wsID = az monitor log-analytics workspace show --workspace-name la-ws-opex -g rg-opex --query id
+    ```
+    ```cli
+    az monitor diagnostic-settings create --resource $webAppName -n diagWebApp --workspace $wsID \
+    --logs '[{"category": "AppServiceHTTPLogs","enabled": true,"retentionPolicy": {"enabled": false,"days": 0}}, \
+             {"category": "AppServiceConsoleLogs","enabled": true,"retentionPolicy": {"enabled": false,"days": 0}}]' \
+    --metrics '[{"category": "AllMetrics","enabled": true,"retentionPolicy": {"enabled": false,"days": 0}}]'
+    ```
 ## Reference
 https://docs.microsoft.com/en-us/cli/azure/monitor/log-analytics/cluster?view=azure-cli-latest#az_monitor_log_analytics_cluster_create
 
@@ -117,7 +137,3 @@ https://docs.microsoft.com/en-us/cli/azure/appservice/plan?view=azure-cli-latest
 https://docs.microsoft.com/en-us/azure/app-service/quickstart-dotnetcore?tabs=netcore31&pivots=development-environment-cli#publish-your-web-app
 
 https://docs.microsoft.com/en-us/azure/azure-monitor/app/create-workspace-resource
-
-https://docs.microsoft.com/en-us/azure/app-service/scripts/cli-deploy-github?toc=/cli/azure/toc.json
-
-https://docs.microsoft.com/en-us/azure/app-service/tutorial-troubleshoot-monitor#create-azure-resources
