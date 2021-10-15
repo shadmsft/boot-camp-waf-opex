@@ -22,47 +22,36 @@ https://portal.azure.com/?feature.customportal=false
    ![image](./media/1.png)
 
 
-2. Ensure that you use Bash for the Cloud Shell
+1. Ensure that you use Bash for the Cloud Shell
 
     ![image](./media/2.png)
 
-3. Set the context to the subscription you want to use.
+1. Set the context to the subscription you want to use.
     ```cli
     az account set --subscription "<your subscription name or Id>"
-4. Create a Resource Group and Log Analytics Workspace by typing these commands in the Cloud Shell.
+    ```
+1. Create a Resource Group and Log Analytics Workspace by typing these commands in the Cloud Shell.
 
     ```cli
     az group create --name rg-opex --location southcentralus
-    ```
 
-    ```cli
     az monitor log-analytics workspace create -g rg-opex -n la-ws-opex
     ```
-
-5. Navigate to the portal to verify the Log Analytics Workspace has been deployed.
-
-    ![image](./media/3.png)
-
-
-6. Run the following commands to get the WorkspaceId and the Workspace Key, alternatively you can get them from the Portal as well.
+1. Run the following commands to get the WorkspaceId and the Workspace Key, alternatively you can get them from the Portal as well.
     ```cli
     az monitor log-analytics workspace show -g rg-opex --workspace-name la-ws-opex --query customerId
-    ```
-    ```cli
+
     az monitor log-analytics workspace get-shared-keys -g rg-opex --workspace-name la-ws-opex
     ```
 ##  Deploy Azure App Service & Web App
 1. Deploy an App Service Plan
     ```cli
     az appservice plan create -g rg-opex -n asp-opex-1 --location southcentralus
-    ```
-    ```cli
+
     let randomNum=$RANDOM*$RANDOM
-    ```
-    ```cli
+
     webAppName=waopex$randomNum
-    ```
-    ```cli
+
     az webapp create -g rg-opex -p asp-opex-1 -n $webAppName
     webAppId=$(az webapp show -g rg-opex -n $webAppName --query id --output tsv)
     ```
@@ -74,7 +63,8 @@ https://portal.azure.com/?feature.customportal=false
 
     echo http://$webAppName.azurewebsites.net
     ```
-
+## Configure App Insights & Diagnostics
+1. Configure App Insights for the Web app
     ```cli
     az extension add -n application-insights
 
@@ -88,9 +78,7 @@ https://portal.azure.com/?feature.customportal=false
     az monitor app-insights component create --app ai-opex --location southcentralus --kind web -g rg-opex --application-type web --retention-time 120
 
     ```
-
-## Configure Diagnostics
-1. Create Diagnostic Settings for the Web app
+2. Create Diagnostic Settings for the Web app
     ```cli
      wsID=$(az monitor log-analytics workspace show --workspace-name la-ws-opex -g rg-opex --query id --output tsv)
 
@@ -98,7 +86,7 @@ https://portal.azure.com/?feature.customportal=false
     ```cli
     az monitor diagnostic-settings create --resource $webAppId --name diagWebApp --workspace $wsID --logs '[{"category":"AppServiceHTTPLogs","enabled":true,"retentionPolicy":{"enabled":false,"days":0}},{"category":"AppServiceConsoleLogs","enabled": true,"retentionPolicy":{"enabled":false,"days":0}}]' --metrics '[{"category":"AllMetrics","enabled":true,"retentionPolicy":{"enabled":false,"days":0}}]'
     ```
-1. Create some load from the Cloud Shell
+3. Create some load from the Cloud Shell
     ```cli
     while true
     do
@@ -109,20 +97,79 @@ https://portal.azure.com/?feature.customportal=false
 
 ##  Configure Azure Alerts & Configure Autoscaling
 
+### Alerts
+1. Navigate to https://portal.azure.com .
+1. Ensure you are in your subscription.
+1. Navigate or search for Alerts and click on it.
+
+    ![image](./media/13.png)
+
+1. Click on + New alert rule
+
+    ![image](./media/14.png)
+
+1. Click on + Select Scope
+
+    ![image](./media/15.png)
+
+1. Filter by App Service plans and select the asp-opex-1 item then click Done.
+
+   ![image](./media/16.png)
+
+1. Click on Next: Condition >  Then select the CPU Percentage signal
+
+   ![image](./media/17.png)
+
+1. Configure the signal logic, for the lab utilize the graph to make a decision as to when this might trigger. In this scenario, my utilization is pretty low, so I will set it to 2
+
+   ![image](./media/18.png)
+
+1. Click on Next: Action > + Create action group
+
+   ![image](./media/19.png)
+
+1. Create the action group. Save it in rg-opex resource group and name it agEmail
+
+    ![image](./media/20.png)
+
+1. Click on Next: Notifications >
+    * Choose: Email/SMS message/Push/Voice
+    * Name: EmailMe
+    * Email: [ Use your email address ]
+
+    ![image](./media/21.png)
+
+1. Click on Next: Actions >. We won't add any specific actions right so.
+1. Click Review + Create.
+1. Click Create to finish the action group creation.
+1. Click on Next: Details > Setting the following
+    * Subscription: Choose your subscription
+    * Resource group: rg-opex
+    * Severity: Informational
+    * Alert rule name: Alert CPU
+    * Alert description: CPU Alert
+    * Enable upon creation: On
+    * Automatically resolve alerts: On
+
+        ![image](./media/22.png)
+
+1. Click on Review + create. Then Create.
+
 ### Autoscaling
-1. Navigate to https://portal.azure.com
-2. Ensure you are in your subscription
-3. Navigate or search for Monitor anc click on it.
+1. Navigate to https://portal.azure.com .
+1. Ensure you are in your subscription.
+1. Navigate or search for Monitor anc click on it.
 
     ![image](./media/6.png)
 
-4. In the Settings Section click on Autoscale
+1. In the Settings Section click on Autoscale
 
     ![image](./media/7.png)
 
 1. Click on the rg-opex App Service Plan deployed previously.
 
     ![image](./media/8.png)
+
 1. Click on Custom autoscale.
 
     ![image](./media/9.png)
