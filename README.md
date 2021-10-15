@@ -1,6 +1,6 @@
 # CSA Boot Camp WAF - Operational Excellence Hands On Activity
 
-## The goal of this activity to give you some hands on experience with one of the pillars of Operational Excellence. Operational Excellence is a large topic and there is more than we can cover in a 25 minute hands on lab. The focus of this lab is to introduce you to 
+## The goal of this activity to give you some hands on experience with one of the pillars of Operational Excellence. The focus of this lab is to introduce you to Monitoring, Autoscaling, and Alerting. Which are critical principals of Operational Excellence.
 
 ## Objectives
 * Deploy Azure Monitor Log Analytics Workspace & App Insights
@@ -18,13 +18,18 @@ https://portal.azure.com/?feature.customportal=false
 ## Deploy Azure Monitor Log Analytics Workspace & App Insights
 1. Navigate to the Azure Portal https://portal.azure.com
 1. Click on the Cloud Shell. You may be prompted to create a storage account if this is your first time to use the cloud shell.
+
    ![image](./media/1.png)
-1. Ensure that you use Bash for the Cloud Shell
+
+
+2. Ensure that you use Bash for the Cloud Shell
+
     ![image](./media/2.png)
-1. Set the context to the subscription you want to use.
+
+3. Set the context to the subscription you want to use.
     ```cli
     az account set --subscription "<your subscription name or Id>"
-1. Type the following command in the cloud shell, make sure to use your <resource group name> and <cluster name>
+4. Create a Resource Group and Log Analytics Workspace by typing these commands in the Cloud Shell.
 
     ```cli
     az group create --name rg-opex --location southcentralus
@@ -34,10 +39,12 @@ https://portal.azure.com/?feature.customportal=false
     az monitor log-analytics workspace create -g rg-opex -n la-ws-opex
     ```
 
-1. Navigate to the portal to verify the Log Analytics Workspace has been deployed.
+5. Navigate to the portal to verify the Log Analytics Workspace has been deployed.
 
     ![image](./media/3.png)
-1. Run the following commands to get the WorkspaceId and the Workspace Key, alternatively you can get them from the Portal as well.
+
+
+6. Run the following commands to get the WorkspaceId and the Workspace Key, alternatively you can get them from the Portal as well.
     ```cli
     az monitor log-analytics workspace show -g rg-opex --workspace-name la-ws-opex --query customerId
     ```
@@ -73,9 +80,7 @@ https://portal.azure.com/?feature.customportal=false
 
     az monitor app-insights component create --app ai-opex --location southcentralus --kind web -g rg-opex --application-type web --retention-time 120
 
-    az monitor app-insights component connect-webapp -a ai-opex -g rg-opex --app $webAppName
-
-    shad@Azure:~$ az monitor app-insights component connect-webapp -a ai-opex -g rg-opex --app ai-opex --web-app $webappId
+    az monitor app-insights component connect-webapp -a ai-opex -g rg-opex --app ai-opex --web-app $webappId
 
     ```
 
