@@ -1,11 +1,11 @@
 # CSA Boot Camp WAF - Operational Excellence Hands On Activity
 
-## The goal of this activity to give you some hands on experience with one of the pillars of Operational Excellence. The focus of this lab is to introduce you to Monitoring, Autoscaling, and Alerting. Which are critical principals of Operational Excellence.
+## The goal of this activity to give you some hands on experience with one of the principles of Operational Excellence. The focus of this lab is to introduce you to Monitoring, Autoscaling, and Alerting.
 
 ## Objectives
-* Deploy Azure Monitor Log Analytics Workspace & App Insights
-* Deploy Azure App Service & Web App
-* Configure Diagnostics
+* [Deploy Azure Monitor Log Analytics Workspace & App Insights](#deploy-azure-monitor-log-Analytics-workspace-&-app-insights)
+* [Deploy Azure App Service & Web App](#deploy-azure-app-service-&-web-app)
+* Configure App Insights & Diagnostics
 * Configure Azure Alerts
 * Configure Autoscaling
 * Query Logs
