@@ -1,21 +1,27 @@
 # CSA Boot Camp WAF - Operational Excellence Hands On Activity
 
-## The goal of this activity to give you some hands on experience with one of the principles of Operational Excellence. The focus of this lab is to introduce you to Monitoring, Autoscaling, and Alerting.
+The goal of this activity to give you some hands on experience with one of the principles of Operational Excellence. The focus of this lab is to introduce you to Monitoring, Autoscaling, and Alerting.
 
 ## Objectives
-* [Deploy Azure Monitor Log Analytics Workspace & App Insights](#deploy-azure-monitor-log-Analytics-workspace-&-app-insights)
-* [Deploy Azure App Service & Web App](#deploy-azure-app-service-&-web-app)
-* Configure App Insights & Diagnostics
-* Configure Azure Alerts
-* Configure Autoscaling
-* Query Logs
+- [CSA Boot Camp WAF - Operational Excellence Hands On Activity](#csa-boot-camp-waf---operational-excellence-hands-on-activity)
+  - [Objectives](#objectives)
+  - [Prerequisites](#prerequisites)
+  - [Deploy Azure Monitor Log Analytics Workspace and App Insights](#deploy-azure-monitor-log-analytics-workspace-and-app-insights)
+  - [Deploy Azure App Service and Web App](#deploy-azure-app-service-and-web-app)
+  - [Configure App Insights and Diagnostics](#configure-app-insights-and-diagnostics)
+  - [Configure Azure Alerts and Autoscaling](#configure-azure-alerts-and-autoscaling)
+    - [Alerts](#alerts)
+    - [Autoscaling](#autoscaling)
+  - [Query Logs](#query-logs)
+  - [Reference](#reference)
 
-https://portal.azure.com/?feature.customportal=false
 
 ## Prerequisites
 1. An Azure Subscription.
 
-## Deploy Azure Monitor Log Analytics Workspace & App Insights
+## Deploy Azure Monitor Log Analytics Workspace and App Insights
+[Back to Objectives](#objectives)
+
 1. Navigate to the Azure Portal https://portal.azure.com
 1. Click on the Cloud Shell. You may be prompted to create a storage account if this is your first time to use the cloud shell.
 
@@ -43,7 +49,9 @@ https://portal.azure.com/?feature.customportal=false
 
     az monitor log-analytics workspace get-shared-keys -g rg-opex --workspace-name la-ws-opex
     ```
-##  Deploy Azure App Service & Web App
+##  Deploy Azure App Service and Web App
+[Back to Objectives](#objectives)
+
 1. Deploy an App Service Plan
     ```cli
     az appservice plan create -g rg-opex -n asp-opex-1 --location southcentralus
@@ -63,7 +71,9 @@ https://portal.azure.com/?feature.customportal=false
 
     echo http://$webAppName.azurewebsites.net
     ```
-## Configure App Insights & Diagnostics
+## Configure App Insights and Diagnostics
+[Back to Objectives](#objectives)
+
 1. Configure App Insights for the Web app
     ```cli
     az extension add -n application-insights
@@ -95,7 +105,8 @@ https://portal.azure.com/?feature.customportal=false
     ```
     Type Ctrl+C when finished with load test
 
-##  Configure Azure Alerts & Configure Autoscaling
+##  Configure Azure Alerts and Autoscaling
+[Back to Objectives](#objectives)
 
 ### Alerts
 1. Navigate to https://portal.azure.com .
@@ -208,6 +219,7 @@ https://portal.azure.com/?feature.customportal=false
         ![image](./media/12.png)
 
 ## Query Logs
+[Back to Objectives](#objectives)
 1. Navigate to https://portal.azure.com
 2. Ensure you are in your subscription
 3. Navigate to the rg-opex resource group
@@ -230,42 +242,12 @@ https://portal.azure.com/?feature.customportal=false
 
     ![image](./media/5.png)
 
-8. To Do:
-
-    TODO:
-    * Wire up Get GitHub (clone|deployment) - Maybe
-    * Add App Insights
-    * Add a problem - maybe
-    * Add as many diagnostics to each service
-    * Gen load with command shell do while(true)
-    * Add Alerts
-    * Add Queries
-    ```
-
 ## Reference
-https://docs.microsoft.com/en-us/cli/azure/monitor/log-analytics/cluster?view=azure-cli-latest#az_monitor_log_analytics_cluster_create
-
-https://docs.microsoft.com/en-us/azure/virtual-machines/extensions/oms-linux#azure-cli-deployment
-
-https://docs.microsoft.com/en-us/cli/azure/monitor/log-analytics/workspace?view=azure-cli-latest#az_monitor_log_analytics_workspace_get_shared_keys
-
-https://docs.microsoft.com/en-us/azure/azure-monitor/vm/monitor-vm-azure#collect-platform-metrics-and-activity-log
-
-https://docs.microsoft.com/en-us/azure/virtual-machines/extensions/diagnostics-linux?toc=%2Fazure%2Fazure-monitor%2Ftoc.json&tabs=azcli
-
-## Web Apps & App Service Plans
-https://docs.microsoft.com/en-us/cli/azure/webapp?view=azure-cli-latest#az_webapp_create
-
-https://docs.microsoft.com/en-us/cli/azure/appservice/plan?view=azure-cli-latest#az_appservice_plan_create
-
-https://docs.microsoft.com/en-us/azure/app-service/quickstart-dotnetcore?tabs=netcore31&pivots=development-environment-cli#publish-your-web-app
-
-https://docs.microsoft.com/en-us/azure/azure-monitor/app/create-workspace-resource
-
-https://docs.microsoft.com/en-us/azure/app-service/scripts/cli-deploy-github?toc=/cli/azure/toc.json
-
-https://docs.microsoft.com/en-us/azure/app-service/tutorial-troubleshoot-monitor#create-azure-resources
-
-https://docs.microsoft.com/en-us/cli/azure/monitor/app-insights/component?view=azure-cli-latest#az_monitor_app_insights_component_connect_webapp
-
-https://docs.microsoft.com/en-us/cli/azure/monitor/app-insights/component?view=azure-cli-latest#az_monitor_app_insights_component_create
+* [az monitor app-insights component | Microsoft Docs](https://docs.microsoft.com/en-us/cli/azure/monitor/log-analytics/workspace?view=azure-cli-latest#az_monitor_log_analytics_workspace_get_shared_keys)
+* [az monitor app-insights component | Microsoft Docs](https://docs.microsoft.com/en-us/cli/azure/monitor/app-insights/component?view=azure-cli-latest#az_monitor_app_insights_component_create)
+* [az appservice plan | Microsoft Docs](https://docs.microsoft.com/en-us/cli/azure/appservice/plan?view=azure-cli-latest#az_appservice_plan_create)
+* [az webapp | Microsoft Docs](https://docs.microsoft.com/en-us/cli/azure/webapp?view=azure-cli-latest#az_webapp_create)
+* [Tutorial: Troubleshoot with Azure Monitor - Azure App Service | Microsoft Docs](https://docs.microsoft.com/en-us/azure/app-service/tutorial-troubleshoot-monitor#create-azure-resources)
+* [CLI: Deploy an app from GitHub - Azure App Service | Microsoft Docs](https://docs.microsoft.com/en-us/azure/app-service/scripts/cli-deploy-github?toc=/cli/azure/toc.json)
+* [Create a new Azure Monitor Application Insights workspace-based resource - Azure Monitor | Microsoft Docs](https://docs.microsoft.com/en-us/azure/azure-monitor/app/create-workspace-resource)
+* [Quickstart: Deploy an ASP.NET web app - Azure App Service | Microsoft Docs](https://docs.microsoft.com/en-us/azure/app-service/quickstart-dotnetcore?tabs=netcore31&pivots=development-environment-cli#publish-your-web-app)
