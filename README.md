@@ -40,35 +40,40 @@ The goal of this activity to give you some hands on experience with one of the p
 
     ```cli
     az group create --name rg-opex --location southcentralus
-
+    ```
+    ```cli
     az monitor log-analytics workspace create -g rg-opex -n la-ws-opex
     ```
 1. Run the following commands to get the WorkspaceId and the Workspace Key, alternatively you can get them from the Portal as well.
     ```cli
     az monitor log-analytics workspace show -g rg-opex --workspace-name la-ws-opex --query customerId
-
+    ```
+    ```cli
     az monitor log-analytics workspace get-shared-keys -g rg-opex --workspace-name la-ws-opex
     ```
 ##  Deploy Azure App Service and Web App
 [Back to Objectives](#objectives)
 
-1. Deploy an App Service Plan
+1. Deploy an App Service Plan and create a Web App
     ```cli
-    az appservice plan create -g rg-opex -n asp-opex-1 --location southcentralus
-
+    az appservice plan create -g rg-opex -n asp-opex-1 --location southcentralus --sku S1
+    ```
+    ```cli
     let randomNum=$RANDOM*$RANDOM
-
     webAppName=waopex$randomNum
-
     az webapp create -g rg-opex -p asp-opex-1 -n $webAppName
+    ```
+    ```cli
     webAppId=$(az webapp show -g rg-opex -n $webAppName --query id --output tsv)
     ```
 1. Create a deployment to the Web App, using a sample application
     ```cli
     gitRepo=https://github.com/Azure-Samples/php-docs-hello-world
-
+    ```
+    ```cli
     az webapp deployment source config --name $webAppName --resource-group rg-opex --repo-url $gitRepo --branch master --manual-integration
-
+    ```
+    ```cli
     echo http://$webAppName.azurewebsites.net
     ```
 ## Configure App Insights and Diagnostics
@@ -77,33 +82,28 @@ The goal of this activity to give you some hands on experience with one of the p
 1. Configure App Insights for the Web app
     ```cli
     az extension add -n application-insights
-
-    az monitor app-insights component create --app ai-opex --location southcentralus --kind web -g rg-opex --application-type web --retention-time 120
-
-    az monitor app-insights component connect-webapp -a ai-opex -g rg-opex --app ai-opex --web-app $webappId
-
     ```
-
     ```cli
     az monitor app-insights component create --app ai-opex --location southcentralus --kind web -g rg-opex --application-type web --retention-time 120
-
+    ```
+    ```cli
+    az monitor app-insights component connect-webapp -a ai-opex -g rg-opex --app ai-opex --web-app $webAppId
     ```
 2. Create Diagnostic Settings for the Web app
     ```cli
      wsID=$(az monitor log-analytics workspace show --workspace-name la-ws-opex -g rg-opex --query id --output tsv)
-
     ```
     ```cli
     az monitor diagnostic-settings create --resource $webAppId --name diagWebApp --workspace $wsID --logs '[{"category":"AppServiceHTTPLogs","enabled":true,"retentionPolicy":{"enabled":false,"days":0}},{"category":"AppServiceConsoleLogs","enabled": true,"retentionPolicy":{"enabled":false,"days":0}}]' --metrics '[{"category":"AllMetrics","enabled":true,"retentionPolicy":{"enabled":false,"days":0}}]'
     ```
-3. Create some load from the Cloud Shell
+3. Create some load from the Cloud Shell.  You may leave this running while you complete the lab.
     ```cli
     while true
     do
         curl http://$webAppName.azurewebsites.net
     done
     ```
-    Type Ctrl+C when finished with load test
+    Type Ctrl+C when finished with load test after the lab.
 
 ##  Configure Azure Alerts and Autoscaling
 [Back to Objectives](#objectives)
@@ -150,7 +150,7 @@ The goal of this activity to give you some hands on experience with one of the p
 
     ![image](./media/21.png)
 
-1. Click on Next: Actions >. We won't add any specific actions right so.
+1. Click on Next: Actions >. We won't add any specific actions right now.
 1. Click Review + Create.
 1. Click Create to finish the action group creation.
 1. Click on Next: Details > Setting the following
