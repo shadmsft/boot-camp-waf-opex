@@ -76,9 +76,23 @@ The goal of this activity to give you some hands on experience with one of the p
     --repo-url $gitRepo --branch master \
     --manual-integration
     ```
+1. Verify the web app by getting the Url and opening the web site. You should see <b>Hello World!</b>
     ```cli
     echo http://$webAppName.azurewebsites.net
     ```
+1. Verify deployment settings in the Portal.
+   1. In the portal, navigate to the rg-opex resource group and click on the app service you created.
+
+        ![image](./media/a.png)
+
+    1. Click on the Deployment Center
+
+        ![image](./media/b.png)
+
+    1. Verify that the Repository and Branch are set.
+
+        ![image](./media/c.png)
+
 ## Configure App Insights and Diagnostics
 [Back to Objectives](#objectives)
 
@@ -87,19 +101,47 @@ The goal of this activity to give you some hands on experience with one of the p
     az extension add -n application-insights
     ```
     ```cli
-    az monitor app-insights component create --app ai-opex --location southcentralus --kind web -g rg-opex --application-type web --retention-time 120
+    wsID=$(az monitor log-analytics workspace show --workspace-name la-ws-opex -g rg-opex --query id --output tsv)
+
+    az monitor app-insights component create --app ai-opex --location southcentralus --kind web -g rg-opex --application-type web --retention-time 120 --workspace $wsID
     ```
     ```cli
     az monitor app-insights component connect-webapp -a ai-opex -g rg-opex --app ai-opex --web-app $webAppId
     ```
-2. Create Diagnostic Settings for the Web app
+1. Let's verify that the Web App has been configured with your Application Insights you just created.
+   1. In the portal, navigate to the rg-opex resource group and click on the app service.
+
+    ![image](./media/d.png)
+
+    1. Click on 'View Application Insights data -->' this will take you to the Application Instights instance.
+
+    ![image](./media/e.png)
+
+1. Create Diagnostic Settings for the Web app
     ```cli
      wsID=$(az monitor log-analytics workspace show --workspace-name la-ws-opex -g rg-opex --query id --output tsv)
     ```
     ```cli
     az monitor diagnostic-settings create --resource $webAppId --name diagWebApp --workspace $wsID --logs '[{"category":"AppServiceHTTPLogs","enabled":true,"retentionPolicy":{"enabled":false,"days":0}},{"category":"AppServiceConsoleLogs","enabled": true,"retentionPolicy":{"enabled":false,"days":0}}]' --metrics '[{"category":"AllMetrics","enabled":true,"retentionPolicy":{"enabled":false,"days":0}}]'
     ```
-3. Create some load from the Cloud Shell.  You may leave this running while you complete the lab.
+1. Let's verify the Diagnostic settings were created in the portal.
+    1. In the portal, navigate to the rg-opex resource group and click on the app service.
+
+    ![image](./media/a.png)
+
+    1. Click on Diagnostic Settings in the Monitoring Section
+
+    ![image](./media/f.png)
+
+    1. Click on the Edit Settings of the diagWebApp setting
+
+    ![image](./media/g.png)
+
+    1. You should see the settings as we created them in the CLI.
+
+    ![image](./media/h.png)
+
+2. Create some load from the Cloud Shell.  You may leave this running while you complete the lab.
     ```cli
     while true
     do
@@ -248,7 +290,7 @@ The goal of this activity to give you some hands on experience with one of the p
 
 ## Reference
 * [az monitor app-insights component | Microsoft Docs](https://docs.microsoft.com/en-us/cli/azure/monitor/log-analytics/workspace?view=azure-cli-latest#az_monitor_log_analytics_workspace_get_shared_keys)
-* [az monitor app-insights component | Microsoft Docs](https://docs.microsoft.com/en-us/cli/azure/monitor/app-insights/component?view=azure-cli-latest#az_monitor_app_insights_component_create)
+* [az monitor app-insights component create | Microsoft Docs](https://docs.microsoft.com/en-us/cli/azure/monitor/app-insights/component?view=azure-cli-latest#az_monitor_app_insights_component_create)
 * [az appservice plan | Microsoft Docs](https://docs.microsoft.com/en-us/cli/azure/appservice/plan?view=azure-cli-latest#az_appservice_plan_create)
 * [az webapp | Microsoft Docs](https://docs.microsoft.com/en-us/cli/azure/webapp?view=azure-cli-latest#az_webapp_create)
 * [Tutorial: Troubleshoot with Azure Monitor - Azure App Service | Microsoft Docs](https://docs.microsoft.com/en-us/azure/app-service/tutorial-troubleshoot-monitor#create-azure-resources)
