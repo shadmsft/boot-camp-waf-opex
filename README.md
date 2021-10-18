@@ -102,11 +102,20 @@ The goal of this activity to give you some hands on experience with one of the p
     ```
     ```cli
     wsID=$(az monitor log-analytics workspace show --workspace-name la-ws-opex -g rg-opex --query id --output tsv)
-
-    az monitor app-insights component create --app ai-opex --location southcentralus --kind web -g rg-opex --application-type web --retention-time 120 --workspace $wsID
     ```
     ```cli
-    az monitor app-insights component connect-webapp -a ai-opex -g rg-opex --app ai-opex --web-app $webAppId
+    az monitor app-insights component create --app ai-opex \
+    --location southcentralus
+    --kind web \
+    --resource-group rg-opex \
+    --application-type web \
+    --workspace $wsID
+    ```
+    ```cli
+    az monitor app-insights component connect-webapp -a ai-opex \
+    -g rg-opex \
+    --app ai-opex \
+    --web-app $webAppId
     ```
 1. Let's verify that the Web App has been configured with your Application Insights you just created.
    1. In the portal, navigate to the rg-opex resource group and click on the app service.
