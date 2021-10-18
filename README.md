@@ -71,7 +71,10 @@ The goal of this activity to give you some hands on experience with one of the p
     gitRepo=https://github.com/Azure-Samples/php-docs-hello-world
     ```
     ```cli
-    az webapp deployment source config --name $webAppName --resource-group rg-opex --repo-url $gitRepo --branch master --manual-integration
+    az webapp deployment source config --name $webAppName \
+    --resource-group rg-opex \
+    --repo-url $gitRepo --branch master \
+    --manual-integration
     ```
     ```cli
     echo http://$webAppName.azurewebsites.net
