@@ -249,7 +249,7 @@ The goal of this activity to give you some hands on experience with one of the p
       * Time aggregation: Average
       * Metric namespace: App Service plans standard metrics
       * Metric name: CPU Percentage
-      * Dimension Name: Insance
+      * Dimension Name: Instance
       * Operator: =
       * Dimension Values: All Values
       * Operator: Greater than
