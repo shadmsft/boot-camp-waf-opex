@@ -241,7 +241,7 @@ The goal of this activity to give you some hands on experience with one of the p
 
 1. Set the following Values
    1. Scale mode: Scale based on a metric
-   2. Rules: + Add Rule
+   2. Rules: + Add Rule - This will be the scale out rule
 
       ![image](./media/9a.png)
 
@@ -253,7 +253,7 @@ The goal of this activity to give you some hands on experience with one of the p
       * Operator: =
       * Dimension Values: All Values
       * Operator: Greater than
-      *  Metric threshold to trigger scale action: 4  (Set this value below the CpuPercentage in the screen, just to trigger an autoscale. This is just for demonstration purposes, you should carefully evaluate what the actual threshold should be)
+      *  Metric threshold to trigger scale action: 20  (Set this value below the CpuPercentage in the screen, just to trigger an autoscale. This is just for demonstration purposes, you should carefully evaluate what the actual threshold should be)
       * Duration (minutes): 5
       * Time grain (minutes): 1
       * Time grain statistic: Average
@@ -263,15 +263,28 @@ The goal of this activity to give you some hands on experience with one of the p
 
         ![image](./media/10.png)
 
-   1. Instance Limits  Minimum: 1
-   1. Instance Limits  Maximum: 1
-   1. Instance Limits  Default: 1
+    1. Repeat the previous step with one minor change to make the Scale in rule.
+       1. Set the Metric threshold to trigger scale action: 15
+       1. Set the Operation: Decrease count by
+
+            ![image](./media/10a.png)
+
+   3. Now you should have a Scale out and Scale in rule
+
+   4. Instance Limits  Minimum: 1
+   5. Instance Limits  Maximum: 1
+   6. Instance Limits  Default: 1
 
         ![image](./media/11.png)
 
-    1. Click Save
+
+    2. Click Save
 
         ![image](./media/12.png)
+
+    3. After some time, you can click on the 'Run History' in the tool bar of the auto scale setting to see the observed instance count over time to observe when your app service plan scales out and in.
+
+        ![image](./media/12a.png)
 
 ## Query Logs
 [Back to Objectives](#objectives)
