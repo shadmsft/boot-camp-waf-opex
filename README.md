@@ -210,7 +210,8 @@ The goal of this activity to give you some hands on experience with one of the p
       * Instance count: 1
       * Cool down (minutes): 5
 
-            ![image](./media/10.png)
+        ![image](./media/10.png)
+
    1. Instance Limits  Minimum: 1
    1. Instance Limits  Maximum: 1
    1. Instance Limits  Default: 1
