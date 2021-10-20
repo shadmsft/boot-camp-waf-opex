@@ -105,7 +105,7 @@ The goal of this activity to give you some hands on experience with one of the p
     ```
     ```cli
     az monitor app-insights component create --app ai-opex \
-    --location southcentralus
+    --location southcentralus \
     --kind web \
     --resource-group rg-opex \
     --application-type web \
