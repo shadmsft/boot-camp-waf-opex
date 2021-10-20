@@ -1,35 +1,47 @@
 # CSA Boot Camp WAF - Operational Excellence Hands On Activity
+The operational excellence pillar covers the operations processes that keep an application running in production. Deployments must be reliable and predictable. Automated deployments reduce the chance of human error. Fast and routine deployment processes won't slow down the release of new features or bug fixes. Equally important, you must be able to quickly roll back or roll forward if an update has problems.
 
-The goal of this activity to give you some hands on experience with one of the principles of Operational Excellence. The focus of this lab is to introduce you to Monitoring, Autoscaling, and Alerting.
+## Resources
+* [Overview of the operational excellence pillar](https://docs.microsoft.com/en-us/azure/architecture/framework/devops/overview)
+* [Azure Well-Architected Review](https://docs.microsoft.com/en-us/assessments)
 
-# ToDos
- * Add WAF Opex Assessment
- * Add Background
- * Add What did we learn at the end of the lab
+## Why are we doing this?
+
+The goal of this activity to give you some hands on experience with several principles Operational Excellence:
+
+  * [Automation of infrastructure](https://docs.microsoft.com/en-us/azure/architecture/framework/devops/automation-overview)
+  *  [Application deployment via GitHub](https://docs.microsoft.com/en-us/azure/architecture/framework/devops/release-engineering-cd)
+  *  [Monitoring](https://docs.microsoft.com/en-us/azure/architecture/framework/devops/monitoring)
+  *  [Alerting](https://docs.microsoft.com/en-us/azure/architecture/framework/devops/alerts)
+  *  [Autoscaling](https://docs.microsoft.com/en-us/azure/architecture/best-practices/auto-scaling)
+
+# Objectives
+- [CSA Boot Camp WAF - Operational Excellence Hands On Activity](#csa-boot-camp-waf---operational-excellence-hands-on-activity)
+  - [Resources](#resources)
+  - [Why are we doing this?](#why-are-we-doing-this)
+- [Objectives](#objectives)
+- [Architecture](#architecture)
+- [Prerequisites](#prerequisites)
+- [Deploy Azure Monitor Log Analytics Workspace and App Insights](#deploy-azure-monitor-log-analytics-workspace-and-app-insights)
+- [Deploy Azure App Service and Web App](#deploy-azure-app-service-and-web-app)
+- [Configure App Insights and Diagnostics](#configure-app-insights-and-diagnostics)
+- [Configure Azure Alerts and Autoscaling](#configure-azure-alerts-and-autoscaling)
+  - [Alerts](#alerts)
+  - [Autoscaling](#autoscaling)
+- [Query Logs](#query-logs)
+- [What did we accomplish?](#what-did-we-accomplish)
+- [References](#references)
 
 # Architecture
 
+Once this lab is completed you should have an Architecture that looks something like the diagram below.
+
  ![image](./media/WAFOpexBootCamp.drawio.png)
 
-## Objectives
-- [CSA Boot Camp WAF - Operational Excellence Hands On Activity](#csa-boot-camp-waf---operational-excellence-hands-on-activity)
-- [ToDos](#todos)
-- [Architecture](#architecture)
-  - [Objectives](#objectives)
-  - [Prerequisites](#prerequisites)
-  - [Deploy Azure Monitor Log Analytics Workspace and App Insights](#deploy-azure-monitor-log-analytics-workspace-and-app-insights)
-  - [Deploy Azure App Service and Web App](#deploy-azure-app-service-and-web-app)
-  - [Configure App Insights and Diagnostics](#configure-app-insights-and-diagnostics)
-  - [Configure Azure Alerts and Autoscaling](#configure-azure-alerts-and-autoscaling)
-    - [Alerts](#alerts)
-    - [Autoscaling](#autoscaling)
-  - [Query Logs](#query-logs)
-  - [Reference](#reference)
+# Prerequisites
+* An Azure Subscription.
 
-## Prerequisites
-1. An Azure Subscription.
-
-## Deploy Azure Monitor Log Analytics Workspace and App Insights
+# Deploy Azure Monitor Log Analytics Workspace and App Insights
 [Back to Objectives](#objectives)
 
 1. Navigate to the Azure Portal https://portal.azure.com
@@ -61,7 +73,7 @@ The goal of this activity to give you some hands on experience with one of the p
     ```cli
     az monitor log-analytics workspace get-shared-keys -g rg-opex --workspace-name la-ws-opex
     ```
-##  Deploy Azure App Service and Web App
+#  Deploy Azure App Service and Web App
 [Back to Objectives](#objectives)
 
 1. Deploy an App Service Plan and create a Web App
@@ -103,7 +115,7 @@ The goal of this activity to give you some hands on experience with one of the p
 
         ![image](./media/c.png)
 
-## Configure App Insights and Diagnostics
+# Configure App Insights and Diagnostics
 [Back to Objectives](#objectives)
 
 1. Configure App Insights for the Web app
@@ -169,10 +181,12 @@ The goal of this activity to give you some hands on experience with one of the p
     ```
     Type Ctrl+C when finished with load test after the lab.
 
-##  Configure Azure Alerts and Autoscaling
+#  Configure Azure Alerts and Autoscaling
 [Back to Objectives](#objectives)
 
-### Alerts
+## Alerts
+Now we will configure alerts to let us know when our Web App begins to consume a certain % of CPU Utilization.
+
 1. Navigate to https://portal.azure.com .
 1. Ensure you are in your subscription.
 1. Navigate or search for Alerts and click on it.
@@ -230,7 +244,9 @@ The goal of this activity to give you some hands on experience with one of the p
 
 1. Click on Review + create. Then Create.
 
-### Autoscaling
+## Autoscaling
+Now we will configure autoscale for our Web App to scale out and scale in when our Web App begins to consume a certain % of CPU Utilization.
+
 1. Navigate to https://portal.azure.com .
 1. Ensure you are in your subscription.
 1. Navigate or search for Monitor anc click on it.
@@ -296,8 +312,11 @@ The goal of this activity to give you some hands on experience with one of the p
 
         ![image](./media/12a.png)
 
-## Query Logs
+# Query Logs
 [Back to Objectives](#objectives)
+
+Now lets learn how to write and execute a KQL Query against Log Analytics.
+
 1. Navigate to https://portal.azure.com
 2. Ensure you are in your subscription
 3. Navigate to the rg-opex resource group
@@ -320,7 +339,15 @@ The goal of this activity to give you some hands on experience with one of the p
 
     ![image](./media/5.png)
 
-## Reference
+# What did we accomplish?
+[Back to Objectives](#objectives)
+* Automated infrastructure deployment using CLI script.
+* Configured Monitoring for Logs and Metrics with Diagnostic Settings.
+* Automated Web App Deployment from GitHub.
+* Configured Alerts and Autoscaling
+* Queried Log Analytics
+
+# References
 * [az monitor app-insights component | Microsoft Docs](https://docs.microsoft.com/en-us/cli/azure/monitor/log-analytics/workspace?view=azure-cli-latest#az_monitor_log_analytics_workspace_get_shared_keys)
 * [az monitor app-insights component create | Microsoft Docs](https://docs.microsoft.com/en-us/cli/azure/monitor/app-insights/component?view=azure-cli-latest#az_monitor_app_insights_component_create)
 * [az appservice plan | Microsoft Docs](https://docs.microsoft.com/en-us/cli/azure/appservice/plan?view=azure-cli-latest#az_appservice_plan_create)
