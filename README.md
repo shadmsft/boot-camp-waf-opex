@@ -29,6 +29,7 @@ The goal of this activity to give you some hands on experience with several prin
   - [Alerts](#alerts)
   - [Autoscaling](#autoscaling)
 - [Query Logs](#query-logs)
+- [Clean Up](#clean-up)
 - [What did we accomplish?](#what-did-we-accomplish)
 - [References](#references)
 
@@ -338,6 +339,15 @@ Now lets learn how to write and execute a KQL Query against Log Analytics.
     ```
 
     ![image](./media/5.png)
+
+# Clean Up
+[Back to Objectives](#objectives)
+
+To clean up the lab, run the following command in the cloud shell.
+
+```cli
+az group delete --name rg-opex
+```
 
 # What did we accomplish?
 [Back to Objectives](#objectives)
