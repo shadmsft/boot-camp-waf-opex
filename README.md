@@ -1,5 +1,5 @@
-# CSA Boot Camp WAF - Operational Excellence Hands On Activity
-The operational excellence pillar covers the operations processes that keep an application running in production. Deployments must be reliable and predictable. Automated deployments reduce the chance of human error. Fast and routine deployment processes won't slow down the release of new features or bug fixes. Equally important, you must be able to quickly roll back or roll forward if an update has problems.
+<h1>CSA Boot Camp WAF - Operational Excellence Hands On Activity</h1>
+The operational excellence pillar covers the operations processes that keep an application running in production. Deployments must be reliable and predictable. Automated deployments reduce the chance of human error. Fast and routine deployment processes won't slow down the release of new features or bug fixes. Equally important, how do you monitor and alert on your applications.
 
 ## Resources
 * [Overview of the operational excellence pillar](https://docs.microsoft.com/en-us/azure/architecture/framework/devops/overview)
@@ -15,11 +15,8 @@ The goal of this activity to give you some hands on experience with several prin
   *  [Alerting](https://docs.microsoft.com/en-us/azure/architecture/framework/devops/alerts)
   *  [Autoscaling](https://docs.microsoft.com/en-us/azure/architecture/best-practices/auto-scaling)
 
-# Objectives
-- [CSA Boot Camp WAF - Operational Excellence Hands On Activity](#csa-boot-camp-waf---operational-excellence-hands-on-activity)
-  - [Resources](#resources)
-  - [Why are we doing this?](#why-are-we-doing-this)
-- [Objectives](#objectives)
+<h1> Objectives</h1>
+
 - [Architecture](#architecture)
 - [Prerequisites](#prerequisites)
 - [Deploy Azure Monitor Log Analytics Workspace and App Insights](#deploy-azure-monitor-log-analytics-workspace-and-app-insights)
