@@ -15,9 +15,8 @@ The goal of this activity to give you some hands on experience with several prin
   *  [Alerting](https://docs.microsoft.com/en-us/azure/architecture/framework/devops/alerts)
   *  [Autoscaling](https://docs.microsoft.com/en-us/azure/architecture/best-practices/auto-scaling)
 
-# Objectives
-
-- [Objectives](#objectives)
+# Activities
+- [Activities](#activities)
 - [Architecture](#architecture)
 - [Prerequisites](#prerequisites)
 - [Deploy Azure Monitor Log Analytics Workspace and App Insights](#deploy-azure-monitor-log-analytics-workspace-and-app-insights)
@@ -41,7 +40,7 @@ Once this lab is completed you should have an Architecture that looks something 
 * An Azure Subscription.
 
 # Deploy Azure Monitor Log Analytics Workspace and App Insights
-[Back to Objectives](#objectives)
+[Back to Activities List](#activities)
 
 1. Navigate to the Azure Portal https://portal.azure.com
 1. Click on the Cloud Shell. You may be prompted to create a storage account if this is your first time to use the cloud shell.
@@ -73,7 +72,7 @@ Once this lab is completed you should have an Architecture that looks something 
     az monitor log-analytics workspace get-shared-keys -g rg-opex --workspace-name la-ws-opex
     ```
 #  Deploy Azure App Service and Web App
-[Back to Objectives](#objectives)
+[Back to Activities List](#activities)
 
 1. Deploy an App Service Plan and create a Web App
     ```cli
@@ -115,7 +114,7 @@ Once this lab is completed you should have an Architecture that looks something 
         ![image](./media/c.png)
 
 # Configure App Insights and Diagnostics
-[Back to Objectives](#objectives)
+[Back to Activities List](#activities)
 
 1. Configure App Insights for the Web app
     ```cli
@@ -181,9 +180,11 @@ Once this lab is completed you should have an Architecture that looks something 
     Type Ctrl+C when finished with load test after the lab.
 
 #  Configure Azure Alerts and Autoscaling
-[Back to Objectives](#objectives)
+[Back to Activities List](#activities)
 
 ## Alerts
+[Back to Activities List](#activities)
+
 Now we will configure alerts to let us know when our Web App begins to consume a certain % of CPU Utilization.
 
 1. Navigate to https://portal.azure.com .
@@ -244,6 +245,8 @@ Now we will configure alerts to let us know when our Web App begins to consume a
 1. Click on Review + create. Then Create.
 
 ## Autoscaling
+[Back to Activities List](#activities)
+
 Now we will configure autoscale for our Web App to scale out and scale in when our Web App begins to consume a certain % of CPU Utilization.
 
 1. Navigate to https://portal.azure.com .
@@ -278,7 +281,7 @@ Now we will configure autoscale for our Web App to scale out and scale in when o
       * Operator: =
       * Dimension Values: All Values
       * Operator: Greater than
-      *  Metric threshold to trigger scale action: 20  (Set this value below the CpuPercentage in the screen, just to trigger an autoscale. This is just for demonstration purposes, you should carefully evaluate what the actual threshold should be)
+      *  Metric threshold to trigger scale action: 20  (Set this value below the CpuPercentage in the screen, just to trigger a scale out event. <b><i><u>This is just for demonstration purposes, you should carefully evaluate what the actual threshold should be</u></i></b>)
       * Duration (minutes): 5
       * Time grain (minutes): 1
       * Time grain statistic: Average
@@ -290,7 +293,7 @@ Now we will configure autoscale for our Web App to scale out and scale in when o
 
     1. Repeat the previous step with one minor change to make the Scale in rule.
        1. Set the Metric threshold to trigger scale action: 15
-       1. Set the Operation: Decrease count by
+       2. Set the Operation: Decrease count by
 
             ![image](./media/10a.png)
 
@@ -312,7 +315,7 @@ Now we will configure autoscale for our Web App to scale out and scale in when o
         ![image](./media/12a.png)
 
 # Query Logs
-[Back to Objectives](#objectives)
+[Back to Activities List](#activities)
 
 Now lets learn how to write and execute a KQL Query against Log Analytics.
 
@@ -339,7 +342,7 @@ Now lets learn how to write and execute a KQL Query against Log Analytics.
     ![image](./media/5.png)
 
 # Clean Up
-[Back to Objectives](#objectives)
+[Back to Activities List](#activities)
 
 To clean up the lab, run the following command in the cloud shell.
 
@@ -348,7 +351,7 @@ az group delete --name rg-opex
 ```
 
 # What did we accomplish?
-[Back to Objectives](#objectives)
+[Back to Activities List](#activities)
 * Automated infrastructure deployment using CLI script.
 * Configured Monitoring for Logs and Metrics with Diagnostic Settings.
 * Automated Web App Deployment from GitHub.
@@ -360,6 +363,7 @@ az group delete --name rg-opex
 * [az monitor app-insights component create | Microsoft Docs](https://docs.microsoft.com/en-us/cli/azure/monitor/app-insights/component?view=azure-cli-latest#az_monitor_app_insights_component_create)
 * [az appservice plan | Microsoft Docs](https://docs.microsoft.com/en-us/cli/azure/appservice/plan?view=azure-cli-latest#az_appservice_plan_create)
 * [az webapp | Microsoft Docs](https://docs.microsoft.com/en-us/cli/azure/webapp?view=azure-cli-latest#az_webapp_create)
+* [Best practices for autoscale - Azure Monitor | Microsoft Docs](https://docs.microsoft.com/en-us/azure/azure-monitor/autoscale/autoscale-best-practices)
 * [Tutorial: Troubleshoot with Azure Monitor - Azure App Service | Microsoft Docs](https://docs.microsoft.com/en-us/azure/app-service/tutorial-troubleshoot-monitor#create-azure-resources)
 * [CLI: Deploy an app from GitHub - Azure App Service | Microsoft Docs](https://docs.microsoft.com/en-us/azure/app-service/scripts/cli-deploy-github?toc=/cli/azure/toc.json)
 * [Create a new Azure Monitor Application Insights workspace-based resource - Azure Monitor | Microsoft Docs](https://docs.microsoft.com/en-us/azure/azure-monitor/app/create-workspace-resource)
