@@ -15,8 +15,9 @@ The goal of this activity to give you some hands on experience with several prin
   *  [Alerting](https://docs.microsoft.com/en-us/azure/architecture/framework/devops/alerts)
   *  [Autoscaling](https://docs.microsoft.com/en-us/azure/architecture/best-practices/auto-scaling)
 
-<h1> Objectives</h1>
+# Objectives
 
+- [Objectives](#objectives)
 - [Architecture](#architecture)
 - [Prerequisites](#prerequisites)
 - [Deploy Azure Monitor Log Analytics Workspace and App Insights](#deploy-azure-monitor-log-analytics-workspace-and-app-insights)
