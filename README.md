@@ -322,14 +322,14 @@ Now lets learn how to write and execute a KQL Query against Log Analytics.
 1. Navigate to https://portal.azure.com
 2. Ensure you are in your subscription
 3. Navigate to the rg-opex resource group
-4. Click on your App Service Web Item Item
-5. In the Monitoring Section click on Logs
+4. Click on your Log Analytics Workspace Item Item
+5. In the GeneraL Section click on Logs
 
     ![image](./media/4.png)
 
 6. Close the 'Queries' dialog window.
 
-    ![image](./media/3a.png)
+    ![image](./media/4a.png)
 
 7. Enter the following KQL in the query text box and click Run. Then above the results click on Chart.
     ```kql
@@ -339,7 +339,7 @@ Now lets learn how to write and execute a KQL Query against Log Analytics.
         | summarize avg(TimeTaken), percentiles(TimeTaken, 90, 95, 99) by CsHost
     ```
 
-    ![image](./media/5.png)
+    ![image](./media/4b.png)
 
 # Clean Up
 [Back to Activities List](#activities)
