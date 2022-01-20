@@ -322,7 +322,7 @@ Now lets learn how to write and execute a KQL Query against Log Analytics.
 1. Navigate to https://portal.azure.com
 2. Ensure you are in your subscription
 3. Navigate to the rg-opex resource group
-4. Click on your Log Analytics Workspace Item Item
+4. Click on your Log Analytics Workspace Item la-ws-opex
 5. In the GeneraL Section click on Logs
 
     ![image](./media/4.png)
