@@ -86,7 +86,7 @@ Once this lab is completed you should have an Architecture that looks something 
     ```cli
     webAppId=$(az webapp show -g rg-opex -n $webAppName --query id --output tsv)
     ```
-1. Create a deployment to the Web App, using a sample application
+1. Create a deployment to the Web App, using a sample application. This is manual, to automatically sync you would need a Git Token. For the lab, we'll just use the manual integration.
     ```cli
     gitRepo=https://github.com/Azure-Samples/php-docs-hello-world
     ```
