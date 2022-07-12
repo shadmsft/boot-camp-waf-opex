@@ -71,6 +71,21 @@ Once this lab is completed you should have an Architecture that looks something 
     ```cli
     az monitor log-analytics workspace get-shared-keys -g rg-opex --workspace-name la-ws-opex
     ```
+1. Create App Insights for the Web app
+    ```cli
+    az extension add -n application-insights
+    ```
+    ```cli
+    wsID=$(az monitor log-analytics workspace show --workspace-name la-ws-opex -g rg-opex --query id --output tsv)
+    ```
+    ```cli
+    az monitor app-insights component create --app ai-opex \
+    --location southcentralus \
+    --kind web \
+    --resource-group rg-opex \
+    --application-type web \
+    --workspace $wsID
+    ```
 #  Deploy Azure App Service and Web App
 [Back to Activities List](#activities)
 
@@ -117,20 +132,6 @@ Once this lab is completed you should have an Architecture that looks something 
 [Back to Activities List](#activities)
 
 1. Configure App Insights for the Web app
-    ```cli
-    az extension add -n application-insights
-    ```
-    ```cli
-    wsID=$(az monitor log-analytics workspace show --workspace-name la-ws-opex -g rg-opex --query id --output tsv)
-    ```
-    ```cli
-    az monitor app-insights component create --app ai-opex \
-    --location southcentralus \
-    --kind web \
-    --resource-group rg-opex \
-    --application-type web \
-    --workspace $wsID
-    ```
     ```cli
     az monitor app-insights component connect-webapp -a ai-opex \
     -g rg-opex \
@@ -193,7 +194,7 @@ Now we will configure alerts to let us know when our Web App begins to consume a
 
     ![image](./media/13.png)
 
-1. Click on + New alert rule
+1. Click on + Create > Alert rule
 
     ![image](./media/14.png)
 
