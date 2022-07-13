@@ -340,7 +340,7 @@ Now lets learn how to write and execute a KQL Query against Log Analytics.
         let SearchValue =  "RG-OPEX";
         AzureMetrics
         | where * contains tostring(SearchValue)
-| take 1000
+        | take 1000
     ```
 
     ![image](./media/4b.png)
