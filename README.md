@@ -59,7 +59,7 @@ Once this lab is completed you should have an Architecture that looks something 
 1. Create a Resource Group and Log Analytics Workspace by typing these commands in the Cloud Shell.
 
     ```cli
-    az group create --name rg-opex --location southcentralus
+    az group create --name rg-opex --location northcentralus
     ```
     ```cli
     az monitor log-analytics workspace create -g rg-opex -n la-ws-opex
@@ -80,7 +80,7 @@ Once this lab is completed you should have an Architecture that looks something 
     ```
     ```cli
     az monitor app-insights component create --app ai-opex \
-    --location southcentralus \
+    --location northcentralus \
     --kind web \
     --resource-group rg-opex \
     --application-type web \
@@ -91,7 +91,7 @@ Once this lab is completed you should have an Architecture that looks something 
 
 1. Deploy an App Service Plan and create a Web App
     ```cli
-    az appservice plan create -g rg-opex -n asp-opex-1 --location southcentralus --sku S1
+    az appservice plan create -g rg-opex -n asp-opex-1 --location northcentralus --sku S1
     ```
     ```cli
     let randomNum=$RANDOM*$RANDOM
