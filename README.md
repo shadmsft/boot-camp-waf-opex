@@ -332,12 +332,15 @@ Now lets learn how to write and execute a KQL Query against Log Analytics.
 
     ![image](./media/4a.png)
 
-7. Enter the following KQL in the query text box and click Run. Then above the results click on Chart.
+7. Enter the following KQL in the query text box and click Run. Then view the results.
     ```kql
-        // Response times of requests
-        // Avg & 90, 95 and 99 percentile response times (in milliseconds) per App CsHost
-        AppServiceHTTPLogs
-        | summarize avg(TimeTaken), percentiles(TimeTaken, 90, 95, 99) by CsHost
+        // Find In AzureMetrics 
+        // Find in AzureMetrics to search for a specific value in the AzureMetrics table. Note that this query requires updating the <SeachValue> parameter to produce results 
+        // This query requires a parameter to run. Enter value in SearchValue to find in table.
+        let SearchValue =  "RG-OPEX";
+        AzureMetrics
+        | where * contains tostring(SearchValue)
+| take 1000
     ```
 
     ![image](./media/4b.png)
