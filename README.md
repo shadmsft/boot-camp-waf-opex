@@ -1,5 +1,5 @@
-<h1>CSA Boot Camp WAF - Operational Excellence Hands On Activity</h1>
-The operational excellence pillar covers the operations processes that keep an application running in production. Deployments must be reliable and predictable. Automated deployments reduce the chance of human error. Fast and routine deployment processes won't slow down the release of new features or bug fixes. Equally important, how does your application to respond to spikes in demand, as well as how do you monitor and alert on your applications?
+<h1>Operational Excellence Hands On Activity</h1>
+The operational excellence pillar covers the operations processes that keep an application running in production. Deployments must be reliable and predictable. Automated deployments reduce the chance of human error. Fast and routine deployment processes won't slow down the release of new features or bug fixes. Equally important, how does your application respond to spikes in demand, as well as how do you monitor and alert on your applications?
 
 ## Resources
 * [Overview of the operational excellence pillar](https://docs.microsoft.com/en-us/azure/architecture/framework/devops/overview)
